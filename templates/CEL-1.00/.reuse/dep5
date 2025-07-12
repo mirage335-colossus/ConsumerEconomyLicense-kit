@@ -1,0 +1,53 @@
+
+# NOTE: This file is for packaging metadata only. It does not define or
+# modify the ConsumerEconomy License (CEL-1.00) terms. See LICENSE-CEL-1.00.md
+# and SUMMARY-CEL-1.00.md for the authoritative text and acceptance requirements.
+
+
+
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: projectName
+Upstream-Contact: name <email@example.com>
+Source: https://github.com/mirage335-colossus/projectName
+
+
+# Default , all files not otherwise are CEL 1.00 or later .
+Files: *
+Copyright: 2025 mirage335
+License: LicenseRef-CEL-1.00-or-later
+
+# CEL-1.00 "only" block (full text + summary)
+Files: LICENSE-CEL-1.00.md
+       LICENSE-CEL-1.00.txt
+       LICENSES/LicenseRef-CEL-1.00-only.txt
+       SUMMARY-CEL-1.00.md
+       SUMMARY-CEL-1.00.txt
+       START_HERE.txt
+Copyright: 2025 mirage335
+License: LicenseRef-CEL-1.00-only
+
+# CEL-1.00 "or-later" helper text
+Files: LICENSES/LicenseRef-CEL-1.00-or-later.txt
+Copyright: 2025 mirage335
+Comment: These helper texts are licensed under ConsumerEconomy License v1.00 or any later version (Section 10.2).  
+         Distributors must include verbatim copies of CEL-1.00 full text and one-page Summary 
+         in the same user-facing element, with equal prominence, and require affirmative assent 
+         before access (per sections 5.1, 5.1-ter, and 13).  
+License: LicenseRef-CEL-1.00-or-later
+
+
+# Project files. CEL-1.00 or later .
+Files: 
+       .reuse/dep5
+       .gitignore
+       CONTRIBUTING.md
+       NOTICE
+       README.md
+       _prog/*
+Copyright: 2025 mirage335
+License: LicenseRef-CEL-1.00-or-later
+
+
+
+
+
