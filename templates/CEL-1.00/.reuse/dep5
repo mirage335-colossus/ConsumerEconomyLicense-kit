@@ -6,14 +6,14 @@
 
 
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: projectName
-Upstream-Contact: name <email@example.com>
-Source: https://github.com/mirage335-colossus/projectName
+Upstream-Name: projectProjectName_replaceMe
+Upstream-Contact: projectUpstreamContact_replaceme
+Source: https://github.com/projectOrganizationName_replaceMe/projectProjectName_replaceMe
 
 
 # Default , all files not otherwise are CEL 1.00 or later .
 Files: *
-Copyright: 2025 mirage335
+Copyright: projectYEAR_replaceMe projectDeveloperName_replaceMe
 License: LicenseRef-CEL-1.00-or-later
 
 # CEL-1.00 "only" block (full text + summary)
@@ -23,12 +23,12 @@ Files: LICENSE-CEL-1.00.md
        SUMMARY-CEL-1.00.md
        SUMMARY-CEL-1.00.txt
        START_HERE.txt
-Copyright: 2025 mirage335
+Copyright: projectYEAR_replaceMe mirage335
 License: LicenseRef-CEL-1.00-only
 
 # CEL-1.00 "or-later" helper text
 Files: LICENSES/LicenseRef-CEL-1.00-or-later.txt
-Copyright: 2025 mirage335
+Copyright: projectYEAR_replaceMe mirage335
 Comment: These helper texts are licensed under ConsumerEconomy License v1.00 or any later version (Section 10.2).  
          Distributors must include verbatim copies of CEL-1.00 full text and one-page Summary 
          in the same user-facing element, with equal prominence, and require affirmative assent 
@@ -44,7 +44,7 @@ Files:
        NOTICE
        README.md
        _prog/*
-Copyright: 2025 mirage335
+Copyright: projectYEAR_replaceMe projectDeveloperName_replaceMe
 License: LicenseRef-CEL-1.00-or-later
 
 

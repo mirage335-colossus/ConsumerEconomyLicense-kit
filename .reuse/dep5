@@ -84,3 +84,17 @@ Files:
        scripts/*
 Copyright: 2025 mirage335
 License: LicenseRef-CEL-1.00-or-later
+
+
+Files: 
+       scripts/LICENSE-CEL-1.00.*
+       scripts/SUMMARY-CEL-1.00.*
+Copyright: 2025 mirage335
+License: LicenseRef-CEL-1.00-only
+
+
+Files: 
+       .gitignore
+       createProject-CEL-1.00--ubiquitous_bash.sh
+Copyright: 2025 mirage335
+License: LicenseRef-CEL-1.00-or-later

@@ -744,23 +744,40 @@ fi
 
 
 
-#Creates derivative project importing ubiquitous_bash as a static library.
-#"$1" == "$projectName"
-#"$2" == "$projectFolder" (optional, default: ./"$projectName" )
-#"$devName" == Developer name (optional, copyright, default: anonymous).
+##Creates derivative project importing ubiquitous_bash as a static library.
+#
+#export devName="devName"
+#export devContact="devName <email@example.com>"
+#
+#export projectName="projectName"
+#export orgName="orgName"
+#
+# ./scriptFileName.sh _project
+##
+##
+##"$1" == "$projectName"
 _project() {
+
+	_request_license_acceptance_CEL_1_00
+
+
+	export netTimeout=18
+	_gitBest_detect
+
 	_messagePlain_nominal "PROJECT: ""$1"
 	_messagePlain_probe "FORK: Ubiquitous Bash: ""$2"
 	
-	workingDir="$PWD"
+	#workingDir="$PWD"
+	workingDir="$scriptAbsoluteFolder"/..
 	
 	[[ "$devName" == "" ]] && devName=anonymous
+	[[ "$devContact" == "" ]] && devContact="anonymous <anonymous@example.com>"
+	[[ "$projectName" == "" ]] && projectName="projectName"
+	[[ "$orgName" == "" ]] && orgName="orgName"
 	
 	[[ "$1" != "" ]] && projectName="$1"
 	
-	projectFolder=./"$projectName"
-	[[ "$2" != "" ]] && projectFolder="$2"/"$projectName"
-	#[[ "$projectFolder" == './' ]] && projectFolder="$2"
+	projectFolder="$workingDir"/"$projectName"
 	
 	
 	#All content in this folder not owned by other authors is intended to be public domain. Other copyright notices may be provided as templates. See license.txt for details.
@@ -797,9 +814,11 @@ Restrictively licensed project. Please only contribute code relevant to this pro
 Any contributions to this project must be made under the same license, etc, as this project, with appropriate patent, contract law, and copyright, arrangements, or will NOT be accepted.
 CZXWXcRMTo8EmM8i4d
 	
-	find . -maxdepth 1 -type f -exec sed -i s/projectProjectName_replaceMe/"$projectName"/g '{}' \;
-	find . -maxdepth 1 -type f -exec sed -i s/projectDeveloperName_replaceMe/"$devName"/g '{}' \;
-	find . -maxdepth 1 -type f -exec sed -i s/projectYEAR_replaceMe/$(date +%Y)/g '{}' \;
+	find . ./.reuse -maxdepth 1 -type f -exec sed -i s/projectProjectName_replaceMe/"$projectName"/g '{}' \;
+	find . ./.reuse -maxdepth 1 -type f -exec sed -i s/projectOrganizationName_replaceMe/"$orgName"/g '{}' \;
+	find . ./.reuse -maxdepth 1 -type f -exec sed -i s/projectDeveloperName_replaceMe/"$devName"/g '{}' \;
+	find . ./.reuse -maxdepth 1 -type f -exec sed -i s/projectUpstreamContact_replaceme/"$devContact"/g '{}' \;
+	find . ./.reuse -maxdepth 1 -type f -exec sed -i s/projectYEAR_replaceMe/$(date +%Y)/g '{}' \;
 	
 	##### Binary Executables
 	mkdir -p ./_bin
@@ -884,8 +903,8 @@ CZXWXcRMTo8EmM8i4d
 	
 	cd "$workingDir"
 
-	_messagePlain_request 'request: projectName= '"$projectName"' ; devName= '"$devName"''
-	_messagePlain_request 'request: write licensing information, etc, git commit, push, etc'
+	#_messagePlain_request 'request: projectName= '"$projectName"' ; devName= '"$devName"''
+	#_messagePlain_request 'request: write licensing information, etc, git commit, push, etc'
 	_messagePlain_request 'request: ... ; cd '"$projectFolder"' ; git add -A . ; git commit -a -m "first commit"'
 }
 
@@ -899,30 +918,31 @@ CZXWXcRMTo8EmM8i4d
 
 
 
+_request_license_acceptance_CEL_1_00() {
 
-# === ConsumerEconomy License (CEL-1.00) Click-Wrap Enforcement ===
+	# === ConsumerEconomy License (CEL-1.00) Click-Wrap Enforcement ===
 
-if ! grep 'CEL-1\.00' "$scriptAbsoluteFolder"/.acceptedProjectLicense	> /dev/null 2>&1
-then
-	
-	# 1. Verify that both files exist
-	if [[ ! -e "$scriptAbsoluteFolder"/LICENSE-CEL-1.00.md ]] || [[ ! -e "$scriptAbsoluteFolder"/SUMMARY-CEL-1.00.md ]]
+	if ! grep 'CEL-1\.00' "$scriptAbsoluteFolder"/.acceptedProjectLicense	> /dev/null 2>&1
 	then
-		echo "Error: CEL license files not found in '$scriptAbsoluteFolder'."
-		echo "Ensure both LICENSE-CEL-1.00.md and SUMMARY-CEL-1.00.md are present."
-		exit 1
-	fi
+		
+		# 1. Verify that both files exist
+		if [[ ! -e "$scriptAbsoluteFolder"/LICENSE-CEL-1.00.md ]] || [[ ! -e "$scriptAbsoluteFolder"/SUMMARY-CEL-1.00.md ]]
+		then
+			echo "Error: CEL license files not found in '$scriptAbsoluteFolder'."
+			echo "Ensure both LICENSE-CEL-1.00.md and SUMMARY-CEL-1.00.md are present."
+			exit 1
+		fi
 
-	if ! type whiptail > /dev/null 2>&1 && ! type dialog > /dev/null 2>&1 && ! type less > /dev/null 2>&1
-	then
-		echo "Error: Neither whiptail, dialog, nor less is available."
-		echo "Please install one of these utilities to view the license."
-		exit 1
-	fi
+		if ! type whiptail > /dev/null 2>&1 && ! type dialog > /dev/null 2>&1 && ! type less > /dev/null 2>&1
+		then
+			echo "Error: Neither whiptail, dialog, nor less is available."
+			echo "Please install one of these utilities to view the license."
+			exit 1
+		fi
 
-	# 2. Show prominent notice and hyperlinks
-	_here_projectLicense_prominentNotice_etc_CEL() {
-	cat <<EOF
+		# 2. Show prominent notice and hyperlinks
+		_here_projectLicense_prominentNotice_etc_CEL() {
+		cat <<EOF
 
 ==============================================================
 This software is distributed under the ConsumerEconomy License (CEL-1.00).
@@ -936,77 +956,81 @@ Online (HTML):
 ==============================================================
 
 EOF
-	}
-	_here_projectLicense_prominentNotice_etc_CEL
+		}
+		_here_projectLicense_prominentNotice_etc_CEL
 
-	# 3. Display with scroll-box: prefer whiptail/dialog, else fallback to less
-	current_ClickWrap_etc_rows_cols=($(stty size))
-	current_ClickWrap_etc_rows=${current_ClickWrap_etc_rows_cols[0]}
-	current_ClickWrap_etc_cols=${current_ClickWrap_etc_rows_cols[1]}
+		# 3. Display with scroll-box: prefer whiptail/dialog, else fallback to less
+		current_ClickWrap_etc_rows_cols=($(stty size))
+		current_ClickWrap_etc_rows=${current_ClickWrap_etc_rows_cols[0]}
+		current_ClickWrap_etc_cols=${current_ClickWrap_etc_rows_cols[1]}
 
-	if [[ "$current_ClickWrap_etc_rows" -lt 50 ]] || [[ "$current_ClickWrap_etc_cols" -lt 140 ]]
-	then
-	echo "Error: Terminal size is too small for displaying the license."
-	echo "Please resize your terminal to at least 50 rows and 140 columns."
-	exit 1
-	fi
+		if [[ "$current_ClickWrap_etc_rows" -lt 50 ]] || [[ "$current_ClickWrap_etc_cols" -lt 140 ]]
+		then
+		echo "Error: Terminal size is too small for displaying the license."
+		echo "Please resize your terminal to at least 50 rows and 140 columns."
+		exit 1
+		fi
 
-	if command -v whiptail &>/dev/null; then
-	whiptail --title "CEL-1.00 Full License" --scrolltext --textbox "$scriptAbsoluteFolder"/LICENSE-CEL-1.00.md "$current_ClickWrap_etc_rows" "$current_ClickWrap_etc_cols"
-	whiptail --title "CEL-1.00 One-Page Summary" --scrolltext --textbox "$scriptAbsoluteFolder"/SUMMARY-CEL-1.00.md "$current_ClickWrap_etc_rows" "$current_ClickWrap_etc_cols"
-	# whiptail exit code 0 == OK
-	elif command -v dialog &>/dev/null; then
-	dialog --title "CEL-1.00 Full License" --textbox "$scriptAbsoluteFolder"/LICENSE-CEL-1.00.md "$current_ClickWrap_etc_rows" "$current_ClickWrap_etc_cols"
-	dialog --title "CEL-1.00 One-Page Summary" --textbox "$scriptAbsoluteFolder"/SUMMARY-CEL-1.00.md "$current_ClickWrap_etc_rows" "$current_ClickWrap_etc_cols"
+		if command -v whiptail &>/dev/null; then
+		whiptail --title "CEL-1.00 Full License" --scrolltext --textbox "$scriptAbsoluteFolder"/LICENSE-CEL-1.00.md "$current_ClickWrap_etc_rows" "$current_ClickWrap_etc_cols"
+		whiptail --title "CEL-1.00 One-Page Summary" --scrolltext --textbox "$scriptAbsoluteFolder"/SUMMARY-CEL-1.00.md "$current_ClickWrap_etc_rows" "$current_ClickWrap_etc_cols"
+		# whiptail exit code 0 == OK
+		elif command -v dialog &>/dev/null; then
+		dialog --title "CEL-1.00 Full License" --textbox "$scriptAbsoluteFolder"/LICENSE-CEL-1.00.md "$current_ClickWrap_etc_rows" "$current_ClickWrap_etc_cols"
+		dialog --title "CEL-1.00 One-Page Summary" --textbox "$scriptAbsoluteFolder"/SUMMARY-CEL-1.00.md "$current_ClickWrap_etc_rows" "$current_ClickWrap_etc_cols"
+		else
+		# Fallback to pager
+		${PAGER:-less} "$scriptAbsoluteFolder"/LICENSE-CEL-1.00.md
+		${PAGER:-less} "$scriptAbsoluteFolder"/SUMMARY-CEL-1.00.md
+		fi
+
+		clear
+		_here_projectLicense_prominentNotice_etc_CEL
+
+		# 4. Prompt for explicit assent
+		echo
+		read -p "Type 'I AGREE' to accept the CEL-1.00 terms and continue: " current_ClickWrap_etc_CONSENT
+		if [[ "$current_ClickWrap_etc_CONSENT" != "I AGREE" ]]; then
+		echo "You did not accept the ConsumerEconomy License. Exiting."
+		exit 1
+		fi
+
+		# === User agreed; shift to actual program ===
+
+		unset current_ClickWrap_etc_CONSENT
+		unset current_ClickWrap_etc_rows_cols
+		unset current_ClickWrap_etc_rows
+		unset current_ClickWrap_etc_cols
+
+		echo "Thank you. Launching program..."
+
+		echo 'CEL-1.00' >> "$scriptAbsoluteFolder"/.acceptedProjectLicense
+
 	else
-	# Fallback to pager
-	${PAGER:-less} "$scriptAbsoluteFolder"/LICENSE-CEL-1.00.md
-	${PAGER:-less} "$scriptAbsoluteFolder"/SUMMARY-CEL-1.00.md
+
+		echo "ConsumerEconomy License (CEL-1.00) already accepted."
+		
 	fi
 
-	clear
-	_here_projectLicense_prominentNotice_etc_CEL
-
-	# 4. Prompt for explicit assent
-	echo
-	read -p "Type 'I AGREE' to accept the CEL-1.00 terms and continue: " current_ClickWrap_etc_CONSENT
-	if [[ "$current_ClickWrap_etc_CONSENT" != "I AGREE" ]]; then
-	echo "You did not accept the ConsumerEconomy License. Exiting."
-	exit 1
-	fi
-
-	# === User agreed; shift to actual program ===
-
-	unset current_ClickWrap_etc_CONSENT
-	unset current_ClickWrap_etc_rows_cols
-	unset current_ClickWrap_etc_rows
-	unset current_ClickWrap_etc_cols
-
-	echo "Thank you. Launching program..."
-
-	echo 'CEL-1.00' >> "$scriptAbsoluteFolder"/.acceptedProjectLicense
-
-else
-
-	echo "ConsumerEconomy License (CEL-1.00) already accepted."
-	
-fi
+}
 
 
-
+_request_license_acceptance_CEL_1_00
 exit
 
 
 
 
-export netTimeout=18
-_gitBest_detect
 
 
 
-export devName="devName"
-export projectName="projectName"
 
-_project "$projectName"
+#export devName="devName"
+#export devContact="devName <email@example.com>"
+
+#export projectName="projectName"
+#export orgName="orgName"
+
+#_project "$projectName"
 
 
