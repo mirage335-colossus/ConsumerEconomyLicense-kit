@@ -786,9 +786,9 @@ _project() {
 	cp -a -f "$scriptAbsoluteFolder"/templates/CEL-1.00/NOTICE ./
 	cp -a -f "$scriptAbsoluteFolder"/templates/CEL-1.00/START_HERE.txt ./
 
-	cp -a -f "$scriptAbsoluteFolder"/templates/CEL-1.00/.reuse ./
-	cp -a -f "$scriptAbsoluteFolder"/templates/CEL-1.00/LICENSES ./
-	cp -a -f "$scriptAbsoluteFolder"/templates/CEL-1.00/README.MD ./
+	cp -a -f "$scriptAbsoluteFolder"/templates/CEL-1.00-ubiquitous_bash/.reuse ./
+	cp -a -f "$scriptAbsoluteFolder"/templates/CEL-1.00-ubiquitous_bash/LICENSES ./
+	cp -a -f "$scriptAbsoluteFolder"/templates/CEL-1.00-ubiquitous_bash/README.MD ./
 	
 	find . ./.reuse -maxdepth 1 -type f -exec sed -i s/projectProjectName_replaceMe/"$projectName"/g '{}' \;
 	find . ./.reuse -maxdepth 1 -type f -exec sed -i s/projectOrganizationName_replaceMe/"$orgName"/g '{}' \;
