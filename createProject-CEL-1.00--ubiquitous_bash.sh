@@ -880,7 +880,7 @@ _project() {
 	cd "$workingDir"
 
 	#_messagePlain_request 'request: projectName= '"$projectName"' ; devName= '"$devName"''
-	#_messagePlain_request 'request: write licensing information, etc, git commit, push, etc'
+	#_messagePlain_request 'request: edit licensing information, etc, git commit, push, etc'
 	_messagePlain_request 'request: ... ; cd '"$projectFolder"' ; git add -A . ; git commit -a -m "first commit"'
 }
 
