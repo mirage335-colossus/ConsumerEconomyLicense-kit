@@ -793,7 +793,7 @@ _project() {
 	find . ./.reuse -maxdepth 1 -type f -exec sed -i s/projectProjectName_replaceMe/"$projectName"/g '{}' \;
 	find . ./.reuse -maxdepth 1 -type f -exec sed -i s/projectOrganizationName_replaceMe/"$orgName"/g '{}' \;
 	find . ./.reuse -maxdepth 1 -type f -exec sed -i s/projectDeveloperName_replaceMe/"$devName"/g '{}' \;
-	find . ./.reuse -maxdepth 1 -type f -exec sed -i s/projectUpstreamContact_replaceme/"$devContact"/g '{}' \;
+	find . ./.reuse -maxdepth 1 -type f -exec sed -i s/projectUpstreamContact_replaceMe/"$devContact"/g '{}' \;
 	find . ./.reuse -maxdepth 1 -type f -exec sed -i s/projectYEAR_replaceMe/$(date +%Y)/g '{}' \;
 	
 	##### Binary Executables
