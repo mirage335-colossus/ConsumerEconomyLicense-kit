@@ -713,32 +713,6 @@ true
 
 
 
-#####Entry
-# ###
-
-if [[ "$1" == '_test' ]]
-then
-	current_deleteScriptLocal="false"
-	[[ ! -e "$scriptLocal" ]] && current_deleteScriptLocal="true"
-	_stop_prog() {
-		[[ "$current_deleteScriptLocal" == "true" ]] && rmdir "$scriptLocal" > /dev/null 2>&1
-	}
-fi
-if [[ "$1" == '_'* ]] && type "$1" > /dev/null 2>&1
-then
-	"$@"
-	internalFunctionExitStatus="$?"
-	return "$internalFunctionExitStatus" > /dev/null 2>&1
-	exit "$internalFunctionExitStatus"
-fi
-
-
-
-
-
-
-
-
 
 
 
@@ -803,16 +777,18 @@ _project() {
 	cp ./_lib/ubiquitous_bash/ubiquitous_bash.sh ./
 	cp ./_lib/ubiquitous_bash/compile.sh ./
 
-	echo > START_HERE.txt
-	echo > NOTICE
+	cp -a -f "$scriptAbsoluteFolder"/templates/CEL-1.00/.reuse ./
+	cp -a -f "$scriptAbsoluteFolder"/templates/CEL-1.00/LICENSES ./
+	cp -a -f "$scriptAbsoluteFolder"/templates/CEL-1.00/README.md ./
+	cp -a -f "$scriptAbsoluteFolder"/templates/CEL-1.00/LICENSE-CEL-1.00.md ./
+	cp -a -f "$scriptAbsoluteFolder"/templates/CEL-1.00/SUMMARY-CEL-1.00.md ./
+	cp -a -f "$scriptAbsoluteFolder"/templates/CEL-1.00/CONTRIBUTING.md ./
+	cp -a -f "$scriptAbsoluteFolder"/templates/CEL-1.00/NOTICE ./
+	cp -a -f "$scriptAbsoluteFolder"/templates/CEL-1.00/START_HERE.txt ./
 
-	echo > README.md
-
-    cat << 'CZXWXcRMTo8EmM8i4d' > CONTRIBUTING.md
-Restrictively licensed project. Please only contribute code relevant to this project specifically. Please get any code, etc, which belongs in permissively licensed alternative projects such as "ubiquitous_bash", libraries, merged into those relevant projects instead!
-
-Any contributions to this project must be made under the same license, etc, as this project, with appropriate patent, contract law, and copyright, arrangements, or will NOT be accepted.
-CZXWXcRMTo8EmM8i4d
+	cp -a -f "$scriptAbsoluteFolder"/templates/CEL-1.00/.reuse ./
+	cp -a -f "$scriptAbsoluteFolder"/templates/CEL-1.00/LICENSES ./
+	cp -a -f "$scriptAbsoluteFolder"/templates/CEL-1.00/README.MD ./
 	
 	find . ./.reuse -maxdepth 1 -type f -exec sed -i s/projectProjectName_replaceMe/"$projectName"/g '{}' \;
 	find . ./.reuse -maxdepth 1 -type f -exec sed -i s/projectOrganizationName_replaceMe/"$orgName"/g '{}' \;
@@ -907,7 +883,6 @@ CZXWXcRMTo8EmM8i4d
 	#_messagePlain_request 'request: write licensing information, etc, git commit, push, etc'
 	_messagePlain_request 'request: ... ; cd '"$projectFolder"' ; git add -A . ; git commit -a -m "first commit"'
 }
-
 
 
 
@@ -1015,15 +990,30 @@ EOF
 }
 
 
+
+#####Entry
+# ###
+
+if [[ "$1" == '_test' ]]
+then
+	current_deleteScriptLocal="false"
+	[[ ! -e "$scriptLocal" ]] && current_deleteScriptLocal="true"
+	_stop_prog() {
+		[[ "$current_deleteScriptLocal" == "true" ]] && rmdir "$scriptLocal" > /dev/null 2>&1
+	}
+fi
+if [[ "$1" == '_'* ]] && type "$1" > /dev/null 2>&1
+then
+	"$@"
+	internalFunctionExitStatus="$?"
+	return "$internalFunctionExitStatus" > /dev/null 2>&1
+	exit "$internalFunctionExitStatus"
+fi
+
+
+
 _request_license_acceptance_CEL_1_00
 exit
-
-
-
-
-
-
-
 
 #export devName="devName"
 #export devContact="devName <email@example.com>"
